@@ -198,6 +198,7 @@ class ConfigOptions:
         for index, arg in enumerate(args):
             if arg == '--config_file' or arg.startswith('--config_file') or arg == '-c':
                 consume_conf=True
+                continue
 
             if consume_conf==True and arg.endswith('.conf'):
                 items = self._parse_config_files_(args[index])
@@ -258,7 +259,8 @@ class ConfigOptions:
                 if self.groupOpts.has_key((groupname,name)):
                     self.groupOpts[(groupname,name)]._set_(value)
                 else:
-                    logger.warning("Missing key pair (%s, %s)" % (name,value)) # 'help' will not be here. it's expected
+                    if (name != 'help'):
+                        logger.warning("Missing key pair (%s, %s)" % (name,value)) # 'help' will not be here. it's expected
                     #print ("Missing key pair (%s, %s)" % (name,value))
         return known_args
 
